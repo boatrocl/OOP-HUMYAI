@@ -15,7 +15,7 @@ public class Boss {
     private Pane gamePane;
     private boolean movingRight = true;
     private Random random = new Random();
-    private int hp = 100;
+    private int hp = 15;
     private int movementSpeed = 2; // Boss movement speed in pixels per frame
 
     private AnimationTimer movementTimer;
@@ -49,7 +49,7 @@ public class Boss {
         hpBar.setPrefWidth(200);
         hpBar.setStyle("-fx-accent: red;");
 
-        hpText = new Text("Boss HP: 100");
+        hpText = new Text("Boss HP: 15");
         hpText.setStyle("-fx-font-size: 16; -fx-fill: white");
 
         HBox hpContainer = new HBox(10);
@@ -104,7 +104,7 @@ public class Boss {
 			hp = 0;
 		}
 		System.out.println("Boss HP: " + hp);
-		hpBar.setProgress((double) hp / 100);
+		hpBar.setProgress((double) hp / 15);
 		hpText.setText("Boss HP: " + hp);
 	}
 

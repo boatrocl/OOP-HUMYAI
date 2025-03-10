@@ -1,17 +1,20 @@
 package application;
 
-import javafx.util.Duration;
+import java.io.File;
+
 import javafx.animation.AnimationTimer;
-import javafx.animation.PauseTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Game {
+	private MediaPlayer mediaPlayer;
     private Stage primaryStage;
     private Pane gamePane;
     private Player player;
@@ -41,12 +44,32 @@ public class Game {
     }
 
     public void startGame() {
+        playBackgroundMusic();
         initializeGameScene();
         setupPlayer();
         setupScoreText();
         setupFpsText(); // Initialize FPS text
         setupBoss();
         startGameLoop();
+    }
+    
+    private void playBackgroundMusic() {
+        try {
+            String musicFile = getClass().getResource("/resources/Night_of_Nights_Game.wav").toExternalForm();
+            Media sound = new Media(musicFile);
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+        } catch (Exception e) {
+            System.out.println("Error Sound");
+            e.printStackTrace();
+        }
+    }
+
+    public void stopBackgroundMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
     }
 
     private void initializeGameScene() {
@@ -140,6 +163,7 @@ public class Game {
 
         if (player.isDefeated()) {
             endGame();
+            stopBackgroundMusic();
         }
         if (isBossRushMode) {
 		    if (boss.getHp() <= 0) {
@@ -148,6 +172,7 @@ public class Game {
 		            boss.CloseTimer();
 		        }
 		        showVictoryScreen(player.getScore());
+		        stopBackgroundMusic();
 		    }
 		}
     }
